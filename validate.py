@@ -23,63 +23,76 @@ def validate(book):
     r_keys = 0
     for key in list(book):
         if key not in schema_keys:
-            print(f"NOK: invalid key found: {key}")
+            print(f"> NOK: invalid key found: {key}")
             return False
+
 
     # check required keys
     for key in required_keys:    
         if key not in book:
             has_valid_schema = False
             print(f"> Required key [{key}] not found!")
-            print(f">> VALIDATION FAIL")
-            
-
+    
+    # the book has valid and required keys. 
+    # now let's check if it has the right kind of keys
     for key in book_keys:
-        # if a key has  "allowed_values"
-        # check that the value of the key is valid
-        if "allowed_values" in schema[key] and book[key] not in schema[key]["allowed_values"]:
+        if type(book[key]) is not schema[key]['type']:
             has_valid_schema = False
-            print(f"> found {key}:({book[key]})  with allowed values : {schema[key]['allowed_values']}")
-            print(f">> VALIDATION FAIL")            
-        # if a key has "allowed_patterns"
-        # check that the value of the key follows the pattern
-        if "allowed_patterns" in schema[key]:
-            # check book entry against the allowed patterns
-            has_valid_pattern = False
-            for pattern in schema[key]['allowed_patterns']:
-                has_valid_pattern = has_valid_pattern or bool(re.match(pattern, book[key]))
-            if not has_valid_pattern:
+            print(f"> {key} is expected to be of type {schema[key]['type']}, but is {type(book[key])}")
+        else:
+            # if a key has  "allowed_values"
+            # check that the value of the key is valid
+            if "allowed_values" in schema[key] and book[key] not in schema[key]["allowed_values"]:
                 has_valid_schema = False
-                print(f"> found {key}:({book[key]}) with expected patterns: {schema[key]['allowed_patterns']}")
-                print(f">> VALIDATION FAIL")
-        # if a key has minmax
-        # check that the book entry has valid values
-        if "min" in schema[key]:
-            if book[key] < schema[key]['min']:
-                has_valid_schema = False
-                print(f"> found {key}:({book[key]}) with expected min: {schema[key]['min']}")
-                print(f">> VALIDATION FAIL")
-        if "max" in schema[key]:
-            if book[key] > schema[key]['max']:
-                has_valid_schema = False
-                print(f"> found {key}:({book[key]}) with expected max: {schema[key]['max']}")
-                print(f">> VALIDATION FAIL")
+                print(f">{key} has value \"{book[key]}\" but allowed values are {schema[key]['allowed_values']}")
+            # if a key has "allowed_patterns"
+            # check that the value of the key follows the pattern
+            if "allowed_patterns" in schema[key]:
+                # check book entry against the allowed patterns
+                has_valid_pattern = False
+                for pattern in schema[key]['allowed_patterns']:
+                    has_valid_pattern = has_valid_pattern or bool(re.match(pattern, book[key]))
+                if not has_valid_pattern:
+                    has_valid_schema = False
+                    print(f"> {key} has value ({book[key]}) but expected patterns are {schema[key]['allowed_patterns']}")
+            # if a key has minmax
+            # check that the book entry has valid values
+            if "min" in schema[key]:
+                if book[key] < schema[key]['min']:
+                    has_valid_schema = False
+                    print(f"> {key} has value ({book[key]}) but allowed min value is {schema[key]['min']}")
+            if "max" in schema[key]:
+                if book[key] > schema[key]['max']:
+                    has_valid_schema = False
+                    print(f"> {key} has value ({book[key]}) but allowed max value is {schema[key]['max']}")
 
-    print(f"{'Unknown' if 'title' not in book.keys() else book['title']} validation pass : {has_valid_schema}")
+    print(f"\"{'Unknown' if 'title' not in book.keys() else book['title']}\" validation pass : {has_valid_schema}")
     return has_valid_schema
 
 
-books = [
-    {"title": "Dune", "status": "read", "last_read": "2021", "author": "Frank Herbert", "rating": 10, "format": "physical"},
-    {"title": "1984", "status": "reading", "last_read": "2024-03", "author": "George Orwell"},
-    {"title": "Sapiens", "status": "abandoned", "last_read": "20211", "author": "Yuval Noah Harari"},
-    {"title": "Neuromancer", "status": "not started"},
-    {"title": "The Hobbit", "status": "done", "last_read": "2022-5", "author": "Tolkien"},
-    {"title": "Atomic Habits", "status": "read", "last_read": "", "author": "James Clear"},
-    {"title": "Shogun", "status": "read", "last_read": "banana", "author": "James Clavell"},
-    {"title": "Book with missing status"},
-    {"status": "read"}
+# valid books - varied optional fields
+valid_books = [
+    {"title": "Dune", "status": "read", "rating": 5, "format": "physical", "author": "Frank Herbert"},
+    {"title": "1984", "status": "reading"},
+    {"title": "Sapiens", "status": "not started", "genres": ["history", "science"], "takeaway": "Interesting take on human progress"},
+    {"title": "Neuromancer", "status": "abandoned", "last_read": "2023-06", "rating": 3},
+    {"title": "Shogun", "status": "read", "last_read": "2021", "format": "digital", "author": "James Clavell", "rating": 4},
 ]
 
-for book in books:
+# invalid books - different ways to break schema
+invalid_books = [
+    {"title": "Bad Rating", "status": "read", "rating": 7},
+    {"title": "Bad Status", "status": "finished"},
+    {"title": "Bad Date", "status": "read", "last_read": "23-06"},
+    {"title": "Bad Format", "status": "read", "format": "audio"},
+    {"title": "Bad Key", "status": "read", "page": 42},
+    {"status": "read"},
+    {"title": "Bad Rating Low", "status": "read", "rating": 0},
+    {"title": "Bad Rating string", "status": "read", "rating": "0"},
+]
+
+for book in valid_books:
+    validate(book)
+
+for book in invalid_books:
     validate(book)
