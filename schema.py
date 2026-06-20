@@ -22,7 +22,7 @@ SCHEMA = {
     "last_read": {
         "type": str,
         "required": False,
-        "allowed_patterns" : ["yyyy", "yyyy-mm"]
+        "allowed_patterns" : [r"^\d{4}$", r"^\d{4}-\d{2}$"]
     },
     "format": {
         "type": str,
