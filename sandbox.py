@@ -1,3 +1,5 @@
+import json 
+
 # exceptions
 def fetcher(obj, index):
     return obj[index]
@@ -15,3 +17,6 @@ def catcher(index):
 
 for i in range(0,5):
     print(catcher(i))
+
+
+

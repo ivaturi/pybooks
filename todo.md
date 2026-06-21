@@ -1,4 +1,4 @@
-- [ ] Validation
+- [x] Basic validation
 - [ ] Simple CRUD
 - [ ] Basic testing
 - [ ] Minimal UI
