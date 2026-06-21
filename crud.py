@@ -8,6 +8,7 @@ BOOKS_FILE = "books.json"
 def load_books():
     try:
         books = read_json(BOOKS_FILE)
+        return books
     except FileNotFoundError:
         print(f"Failed to read db: '{BOOKS_FILE}'. file doesn't exist!")
         return False

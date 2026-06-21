@@ -1,3 +1,4 @@
 from crud import load_books
 
-load_books()
+books = load_books()
+print(books)
