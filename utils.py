@@ -7,3 +7,7 @@ def read_json(fname):
         books = json.load(file)
         return books
     
+
+def write_json(fname, books):
+    with open(fname, 'w') as file:
+        json.dump(books, file)

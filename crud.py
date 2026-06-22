@@ -1,6 +1,6 @@
 import json
 from validate import validate
-from utils import read_json
+from utils import *
 
 BOOKS_FILE = "books.json"
 
@@ -20,8 +20,14 @@ def load_books():
         print(type(e), e)
         return False
 
-def write_books():
-    pass
+def write_books(books):
+    try:
+        write_json(BOOKS_FILE, books)
+        return True
+    except Exception as e:
+        print(f"Failed to write to db")
+        print(type(e), e)
+        return False
 
 def create(book):
     pass
