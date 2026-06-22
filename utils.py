@@ -10,4 +10,4 @@ def read_json(fname):
 
 def write_json(fname, books):
     with open(fname, 'w') as file:
-        json.dump(books, file)
+        json.dump(books, file, indent = 2)
