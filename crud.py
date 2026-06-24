@@ -1,5 +1,4 @@
 import json
-from validate import validate
 from utils import *
 
 BOOKS_FILE = "books.json"

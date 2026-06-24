@@ -2,7 +2,7 @@ import json
 from schema import SCHEMA as schema, VERSION
 import re
 
-def validate(book):
+def is_valid_book(book):
     
     # get all schema keys
     schema_keys = schema.keys()
@@ -68,3 +68,9 @@ def validate(book):
 
     print(f"\"{'Unknown' if 'title' not in book.keys() else book['title']}\" validation pass : {has_valid_schema}")
     return has_valid_schema
+
+
+def validate(books):
+    valid_books = [book for book in books if is_valid_book(book)]
+    return valid_books
+            
