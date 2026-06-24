@@ -38,8 +38,8 @@ def create(newBook):
         print("Could not create book, because of validation errors")
         return False
    
-    currentBooks = load_books()
-    if not currentBooks:
+    bookList = load_books()
+    if not bookList:
         print("Could not load books")
         return False
 
@@ -47,7 +47,7 @@ def create(newBook):
     identity_keys = [key for key in schema.keys() if "identity" in schema[key] and schema[key]["identity"] == True]
     
     # check newBook against existing books for identity keys
-    for book in currentBooks:
+    for book in bookList:
         match = True
         for key in identity_keys:
             match = match and newBook.get(key) == book.get(key)
@@ -56,6 +56,5 @@ def create(newBook):
             return False    
     
     # all tests pass. OK to add book
-    
-    
-    return True
+    bookList.append(newBook)
+    return write_books(bookList)
