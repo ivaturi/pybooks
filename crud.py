@@ -1,5 +1,8 @@
 import json
 from utils import *
+from validate import validate
+from schema import SCHEMA as schema, VERSION
+
 
 BOOKS_FILE = "books.json"
 
@@ -28,5 +31,31 @@ def write_books(books):
         print(type(e), e)
         return False
 
-def create(book):
-    pass
+def create(newBook):
+
+    # check if the book is valid
+    if not validate([newBook]):
+        print("Could not create book, because of validation errors")
+        return False
+   
+    currentBooks = load_books()
+    if not currentBooks:
+        print("Could not load books")
+        return False
+
+    # get required keys
+    identity_keys = [key for key in schema.keys() if "identity" in schema[key] and schema[key]["identity"] == True]
+    
+    # check newBook against existing books for identity keys
+    for book in currentBooks:
+        match = True
+        for key in identity_keys:
+            match = match and newBook.get(key) == book.get(key)
+        if match:
+            print("Book with same title and author already exists")
+            return False    
+    
+    # all tests pass. OK to add book
+    
+    
+    return True
