@@ -11,4 +11,4 @@ write_books(valid_books)
 
 # test that a book caa be created and added to the db
 book = valid_books[0]
-print(create(book))
+create(book)
