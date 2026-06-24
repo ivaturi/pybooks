@@ -2,7 +2,8 @@ VERSION = "1.0"
 SCHEMA = {
     "title": {
     "type": str,
-    "required" : True
+    "required" : True,
+    "identity": True
     },
     "status":{
         "type": str,
@@ -11,7 +12,8 @@ SCHEMA = {
     },
     "author": {
         "type": str,
-        "required": False
+        "required": False,
+        "identity": True
     },
     "rating": {
         "type": int,
