@@ -12,18 +12,14 @@ A personal book tracker in Python. Stores a reading list with metadata (status, 
 | `utils.py` | `read_json(fname)`, `write_json(fname, data)` — thin JSON helpers |
 | `test_data.py` | `valid_books` and `invalid_books` lists for manual testing |
 | `test_crud.py` | Manual test script (not a test framework — just run it directly) |
+| `books.py` | CLI entrypoint — `add` and `list` commands |
 | `books.json` | The "database" — a JSON array of book dicts |
+| `books_test.json` | Test database, used with `-t` flag |
 | `todo.md` | Project checklist |
 
-## Current State (as of 2026-06-22)
+## Current State
 
-- [x] Schema defined (`schema.py`)
-- [x] Validation complete (`validate.py`) — invalid keys, required keys, type checking, allowed_values, allowed_patterns (regex), min/max
-- [x] `load_books()` done
-- [x] `write_books(books)` done — needs return value on failure (currently returns None instead of False like load_books)
-- [ ] `create(book)` — next step
-- [ ] Basic testing
-- [ ] Minimal UI
+See `todo.md` for issues and progress.
 
 ## How to Run
 
