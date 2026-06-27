@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Test",
+    "status": "not started",
+    "author": "John"
+  },
+  {
+    "title": "Test 2",
+    "status": "reading",
+    "author": "Smith"
+  }
+]
