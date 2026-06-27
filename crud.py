@@ -25,6 +25,7 @@ def load_books():
 def write_books(books):
     try:
         write_json(BOOKS_FILE, books)
+        print(f"Successfully wrote books to {BOOKS_FILE}")
         return True
     except Exception as e:
         print(f"Failed to write to db")
@@ -39,7 +40,7 @@ def create(newBook):
         return False
    
     bookList = load_books()
-    if not bookList:
+    if bookList is False:
         print("Could not load books")
         return False
 
