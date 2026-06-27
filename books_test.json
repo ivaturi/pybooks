@@ -8,5 +8,40 @@
     "title": "Test 2",
     "status": "reading",
     "author": "Smith"
+  },
+  {
+    "title": "Jurassic Park",
+    "status": "read",
+    "author": "Michael Crichton",
+    "rating": 5,
+    "last_read": "2008",
+    "format": "physical",
+    "genres": [
+      "scifi",
+      "fantasy"
+    ]
+  },
+  {
+    "title": "Animal Farm",
+    "status": "read",
+    "author": "George Orwell",
+    "rating": 5,
+    "last_read": "2024",
+    "format": "physical",
+    "genres": []
+  },
+  {
+    "title": "test",
+    "status": "read",
+    "author": "test",
+    "rating": 3,
+    "last_read": "2008",
+    "format": "physical",
+    "genres": [
+      "genre",
+      "genre",
+      "genre"
+    ],
+    "takeaway": "none"
   }
 ]
