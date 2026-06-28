@@ -7,18 +7,18 @@ from schema import SCHEMA as schema, VERSION
 BOOKS_FILE = "books.json"
 
 
-def load_books():
+def load_books(books_db = BOOKS_FILE):
     try:
-        books = read_json(BOOKS_FILE)
+        books = read_json(books_db)
         return books
     except FileNotFoundError:
-        print(f"Failed to read db: '{BOOKS_FILE}'. file doesn't exist!")
+        print(f"Failed to read db: '{books_db}'. file doesn't exist!")
         return False
     except json.decoder.JSONDecodeError:
-        print(f"Failed to read db: '{BOOKS_FILE}'. json is corrupt!")
+        print(f"Failed to read db: '{books_db}'. json is corrupt!")
         return False
     except Exception as e:
-        print(f"Failed to read db: '{BOOKS_FILE}'!")
+        print(f"Failed to read db: '{books_db}'!")
         print(type(e), e)
         return False
 
