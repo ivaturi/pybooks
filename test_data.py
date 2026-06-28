@@ -18,3 +18,5 @@ invalid_books = [
     {"title": "Bad Rating Low", "status": "read", "rating": 0},
     {"title": "Bad Rating string", "status": "read", "rating": "0"},
 ]
+
+corrupt_json = "[{'title' : 'Bad rating' 'status' : 'unread}]"
