@@ -53,13 +53,30 @@ def add_book():
     
     crud.create(book)
 
+
+def list_books():
+    # read from the database and list books
+    books = crud.load_books()
+    column_length = 25
+    required_keys = [x for x in schema.keys() if schema[x].get("required")]
+    required_keys_padded = [x.ljust(column_length," ") for x in required_keys]
+    print("".join(required_keys_padded))
+    print("-"*(2*column_length + 3))
+    for book in books:
+        row = ""
+        for key in required_keys:
+            row += book[key].ljust(column_length)
+        print(row)    
+
+    
+
 if len(argv) < 2:
     print("No arguments passed, nothing to do")
 
 if len(argv) >= 3:
     match argv[2]:
         case "-t":
-            print("Using test db")
+            print("---- Using test db: books_test.json ----")
             crud.BOOKS_FILE = "books_test.json"
         case _:
             pass
@@ -69,7 +86,7 @@ if len(argv) >= 2:
         case "add":
             add_book()
         case "list":
-            print("Listing")
+            list_books()
         case _:
             print("Invalid option!")
 

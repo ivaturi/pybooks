@@ -13,7 +13,7 @@
 - CLI
   - [x] `add` command
   - [x] `-t` flag for test db
-  - [ ] `list` command
+  - [x] `list` command
   - [x] fix skip check for int fields (line 17 `books.py` — `len()` crashes on int)
 
 - Testing
