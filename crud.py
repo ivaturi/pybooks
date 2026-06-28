@@ -1,6 +1,6 @@
 import json
 from utils import *
-from validate import validate
+from validate import is_valid_book
 from schema import SCHEMA as schema, VERSION
 
 
@@ -22,31 +22,30 @@ def load_books(books_db = BOOKS_FILE):
         print(type(e), e)
         return False
 
-def write_books(books):
+def write_books(books, books_db = BOOKS_FILE):
     try:
-        write_json(BOOKS_FILE, books)
-        print(f"Successfully wrote books to {BOOKS_FILE}")
+        write_json(books_db, books)
+        print(f"Successfully wrote books to {books_db}")
         return True
     except Exception as e:
         print(f"Failed to write to db")
         print(type(e), e)
         return False
 
-def create(newBook):
+def create(newBook, books_db = BOOKS_FILE):
 
     # check if the book is valid
-    if not validate([newBook]):
+    if not is_valid_book(newBook):
         print("Could not create book, because of validation errors")
         return False
    
-    bookList = load_books()
+    bookList = load_books(books_db)
     if bookList is False:
         print("Could not load books")
         return False
 
     # get required keys
     identity_keys = [key for key in schema.keys() if "identity" in schema[key] and schema[key]["identity"] == True]
-    
     # check newBook against existing books for identity keys
     for book in bookList:
         match = True
@@ -58,4 +57,4 @@ def create(newBook):
     
     # all tests pass. OK to add book
     bookList.append(newBook)
-    return write_books(bookList)
+    return write_books(bookList, books_db)
