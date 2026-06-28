@@ -32,7 +32,7 @@ class TestCrud(unittest.TestCase):
         # corrupt json
         with open(self.test_db,"w") as db:
             db.write(test_data.corrupt_json)
-        self.assertEqual(False, crud.load_books(self.test_db))
+         self.assertEqual(False, crud.load_books(self.test_db))
 
 
     def test_create_valid_book(self):
