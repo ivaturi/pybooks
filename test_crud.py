@@ -1,5 +1,5 @@
 import crud
-import os
+import os, stat
 import test_data
 import unittest
 import utils
@@ -21,6 +21,9 @@ class TestCrud(unittest.TestCase):
         self.print_patch.stop()
 
     
+    # -----------------------------------------
+    # Test scenarios for loading books from db
+    # ------------------------------------------
     def test_load_valid_books(self):
         # happy path
         utils.write_json(self.test_db, test_data.valid_books)
@@ -37,7 +40,9 @@ class TestCrud(unittest.TestCase):
         
         self.assertEqual(False, crud.load_books(self.test_db))
 
-
+    # -----------------------------------
+    # Test scenarios for creating a book
+    # -----------------------------------
     def test_create_valid_book(self):
         # clean slate
         utils.write_json(self.test_db, [])
@@ -62,7 +67,24 @@ class TestCrud(unittest.TestCase):
         books = crud.load_books(self.test_db)
         self.assertIn(existing_book, books)
 
+    # ------------------------
+    # Tests for writing books
+    # -------------------------
+    def test_write_books_to_read_only_file(self):
+        # make db read-only
+        os.chmod(self.test_db, stat.S_IRUSR)
+
+        # writing should fail
+        self.assertEqual(False, crud.write_books(test_data.invalid_books, self.test_db))
+
+        # restore db access rights
+        os.chmod(self.test_db, stat.S_IRWXU)
     
+    def test_write_books(self):
+        # check that the function oes through
+        self.assertEqual(True, crud.write_books(test_data.invalid_books, self.test_db))
+        # check that books were actually written
+        self.assertEqual(test_data.invalid_books, crud.load_books(self.test_db))
 
 if __name__ == "__main__":
     unittest.main()
